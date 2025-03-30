@@ -1,0 +1,17 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy to Server
+    steps:
+      - name: 📂 Заливаем файлы на сервер
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SPACEWEB_HOST }}
+          username: ${{ secrets.SPACEWEB_USER }}
+          key: ${{ secrets.SPACEWEB_PRIVATE }}
+          script: cd /home/n/neverspaik/b24helper/ && sh ./deploy.sh
