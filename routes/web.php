@@ -17,3 +17,7 @@ Route::get('/', function () {
     $records = DB::table('tasks')->get();
     return view('welcome', ['records' => $records]);
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
