@@ -14,5 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $records = DB::table('tasks')->get();
+    return view('welcome', ['records' => $records]);
 });
