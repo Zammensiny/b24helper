@@ -131,7 +131,7 @@
         </div>
 
         <div style="text-align: center; margin-top: 20px;">
-            <h2>Список записей 1</h2>
+            <h2>Список записей 2</h2>
             <table border="1" cellpadding="10" cellspacing="0" style="margin: auto;">
                 <tr>
                     <th>ID</th>
