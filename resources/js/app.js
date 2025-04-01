@@ -18,9 +18,6 @@ const app = createApp({
             const response = await fetch(url);
             const tasks = await response.json();
 
-            console.log(tasks)
-
-
             this.tasks = tasks;
         },
         updateTasks(tasks) {

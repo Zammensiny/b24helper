@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>B24Helper</title>
+    <title>Bitrix Dev</title>
     @vite(['resources/js/app.js', 'resources/sass/app.scss'])
 </head>
 <body class="flex flex-col min-h-screen">

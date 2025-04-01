@@ -3,12 +3,13 @@
         <div
             v-for="task in tasks"
             :key="task.id"
-            class="bg-white p-4 border border-gray-400 rounded-lg shadow-md"
+            class="bg-white p-4 border border-gray-400 rounded-lg shadow-md cursor-pointer"
+            @click="openTaskModal(task.id)"
         >
             <h3 class="text-xl font-semibold">{{ task.title }}</h3>
             <p class="text-gray-600">{{ task.subtitle }}</p>
 
-
+            <!-- Categories -->
 
             <span
                 v-for="category in task.categories"
@@ -30,10 +31,33 @@
 
         </div>
     </div>
+
+    <TaskModal :taskId="selectedTaskId" :isOpen="isModalOpen" @close="closeTaskModal" />
+
 </template>
 
 <script>
+import TaskModal from './TaskModal.vue';
+
 export default {
+    components: { TaskModal },
     props: ['tasks'],
+    data() {
+        return {
+            isModalOpen: false,
+            selectedTaskId: null
+        };
+    },
+    methods: {
+        openTaskModal(taskId) {
+
+            this.selectedTaskId = taskId;
+            this.isModalOpen = true;
+        },
+        closeTaskModal() {
+            this.isModalOpen = false;
+            this.selectedTaskId = null;
+        }
+    }
 };
 </script>
