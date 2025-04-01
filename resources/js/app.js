@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import TaskSearch from './components/TaskSearch.vue'
 import TaskList from './components/TaskList.vue'
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const app = createApp({
     data() {
