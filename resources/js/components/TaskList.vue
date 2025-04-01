@@ -49,11 +49,17 @@ export default {
         };
     },
     methods: {
+
+        /*-- Открыть модалку --*/
+
         openTaskModal(taskId) {
 
             this.selectedTaskId = taskId;
             this.isModalOpen = true;
         },
+
+        /*-- Закрыть модалку --*/
+
         closeTaskModal() {
             this.isModalOpen = false;
             this.selectedTaskId = null;

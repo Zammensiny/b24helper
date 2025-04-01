@@ -61,6 +61,9 @@ export default {
         }
     },
     methods: {
+
+        /*-- Получить деталку --*/
+
         async fetchTask() {
             this.isLoading = true;
             this.task = null;
@@ -78,11 +81,17 @@ export default {
                 this.isLoading = false;
             }
         },
+
+        /*-- Закрыть модалку --*/
+
         closeModal() {
             this.isLoading = true;
             this.task = null;
             this.$emit('close');
         },
+
+        /*-- Клик снаружи --*/
+
         clickOutside(event) {
             if (!this.$refs.modalContent || !this.$refs.modalContent.contains(event.target)) {
                 this.closeModal();

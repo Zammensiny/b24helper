@@ -7,6 +7,8 @@ const app = createApp({
     data() {
         return {
             tasks: [],
+            isAdmin: window.Laravel.isAdmin,
+            isAuthenticated: window.Laravel.isAuthenticated,
         }
     },
     methods: {
@@ -29,7 +31,7 @@ const app = createApp({
     },
     template: `
         <div class="container mx-auto">
-        <task-search @update-tasks="updateTasks" />
+        <task-search :is-authenticated="isAuthenticated" :is-admin="isAdmin" @update-tasks="updateTasks" />
         <task-list :tasks="tasks" />
         </div>
     `

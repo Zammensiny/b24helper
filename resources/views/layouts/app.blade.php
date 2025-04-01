@@ -12,13 +12,9 @@
     @yield('content')
 </main>
 
-@if(Auth::check())
-    <button class="my-5 bg-green-500 text-white px-4 py-2 rounded">Админская кнопка</button>
-@endif
-
 <footer class="text-white my-5">
     <div class="container mx-auto text-center">
-        <a href="https://t.me/Zammensiny" target="_blank" class="flex justify-center text-blue-400 text-lg">
+        <a href="https://t.me/Zammensiny" target="_blank" class="flex justify-center text-blue-700 text-lg">
             <i class="fab fa-telegram text-3xl mr-2"></i>
             t.me/Zammensiny
         </a>
