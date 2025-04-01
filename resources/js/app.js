@@ -10,9 +10,25 @@ const app = createApp({
         }
     },
     methods: {
+        async fetchTasks(query = '') {
+            let url = '/api/tasks';
+            if (query) {
+                url += `?query=${query}`;
+            }
+            const response = await fetch(url);
+            const tasks = await response.json();
+
+            console.log(tasks)
+
+
+            this.tasks = tasks;
+        },
         updateTasks(tasks) {
             this.tasks = tasks;
         }
+    },
+    mounted() {
+        this.fetchTasks();
     },
     template: `
         <div class="container mx-auto">

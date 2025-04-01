@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full flex justify-start items-center relative px-4 sm:px-6">
+    <div class="w-full flex justiclassNameart items-center relative px-4 sm:px-6">
         <input
             type="text"
             v-model="searchQuery"
@@ -22,6 +22,13 @@ export default {
     },
     methods: {
         async searchTasks() {
+            if (!this.searchQuery.trim()) {
+                const response = await fetch(`/api/tasks`);
+                const tasks = await response.json();
+                this.$emit('update-tasks', tasks);
+                return;
+            }
+
             this.$emit('search', this.searchQuery);
             const response = await fetch(`/api/tasks?query=${this.searchQuery}`);
             const tasks = await response.json();

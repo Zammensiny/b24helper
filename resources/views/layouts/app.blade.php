@@ -16,7 +16,7 @@
     <div class="container mx-auto text-center">
         <a href="https://t.me/Zammensiny" target="_blank" class="flex justify-center text-blue-400 text-lg">
             <i class="fab fa-telegram text-3xl mr-2"></i>
-            https://t.me/Zammensiny
+            t.me/Zammensiny
         </a>
     </div>
 </footer>
