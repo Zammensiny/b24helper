@@ -10,7 +10,11 @@ class Task extends Model
     use HasFactory;
 
     protected $table = 'tasks';
-
     protected $fillable = ['title', 'subtitle'];
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'category_task');
+    }
 }
 

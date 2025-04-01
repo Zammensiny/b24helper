@@ -17,14 +17,14 @@ class TaskController extends Controller
     {
         $query = $request->input('query');
 
+        $tasksQuery = Task::query()->with('categories');
+
         if ($query) {
-            $tasks = Task::where('title', 'like', '%' . $query . '%')
-                ->orWhere('subtitle', 'like', '%' . $query . '%')
-                ->latest()
-                ->get();
-        } else {
-            $tasks = Task::latest()->take(15)->get();
+            $tasksQuery->where('title', 'like', '%' . $query . '%')
+                ->orWhere('subtitle', 'like', '%' . $query . '%');
         }
+
+        $tasks = $tasksQuery->latest()->take(20)->get();
 
         return response()->json($tasks);
     }
