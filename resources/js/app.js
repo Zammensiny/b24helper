@@ -32,7 +32,11 @@ const app = createApp({
     template: `
         <div class="container mx-auto">
         <task-search :is-authenticated="isAuthenticated" :is-admin="isAdmin" @update-tasks="updateTasks" />
-        <task-list :tasks="tasks" />
+        <task-list
+            :tasks="tasks"
+            :is-admin="isAdmin"
+            @update-tasks="updateTasks"
+        />
         </div>
     `
 });

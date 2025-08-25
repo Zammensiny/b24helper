@@ -10,3 +10,5 @@ Route::get('/tasks/{id}', function ($id) {
     sleep(1);
     return Task::with('categories')->findOrFail($id);
 });
+
+Route::post('/tasks/{task}/delete', [TaskController::class, 'destroy'])->middleware('auth');

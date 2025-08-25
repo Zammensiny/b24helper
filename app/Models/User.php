@@ -11,4 +11,9 @@ class User extends Authenticatable
     use HasFactory;
 
     protected $fillable = ['name', 'password', 'is_admin'];
+
+    public function isAdmin(): bool
+    {
+        return (bool) $this->is_admin;
+    }
 }

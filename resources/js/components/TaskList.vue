@@ -32,7 +32,13 @@
         </div>
     </div>
 
-    <TaskModal :taskId="selectedTaskId" :isOpen="isModalOpen" @close="closeTaskModal" />
+    <TaskModal
+        :taskId="selectedTaskId"
+        :isOpen="isModalOpen"
+        :is-admin="isAdmin"
+        @close="closeTaskModal"
+        @deleted="handleDeletedTask"
+    />
 
 </template>
 
@@ -41,7 +47,8 @@ import TaskModal from './TaskModal.vue';
 
 export default {
     components: { TaskModal },
-    props: ['tasks'],
+    props: ['tasks', 'isAdmin'],
+    emits: ['update-tasks'],
     data() {
         return {
             isModalOpen: false,
@@ -63,6 +70,10 @@ export default {
         closeTaskModal() {
             this.isModalOpen = false;
             this.selectedTaskId = null;
+        },
+
+        handleDeletedTask(taskId) {
+            this.$emit('update-tasks', this.tasks.filter(task => task.id !== taskId));
         }
     }
 };
