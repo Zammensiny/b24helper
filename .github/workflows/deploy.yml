@@ -11,7 +11,7 @@ jobs:
       - name: 📂 Заливаем файлы на сервер
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SPACEWEB_HOST }}
-          username: ${{ secrets.SPACEWEB_USER }}
-          key: ${{ secrets.SPACEWEB_PRIVATE }}
-          script: cd /home/n/neverspaik/b24helper/ && sh ./deploy.sh
+          host: ${{ secrets.PURESERVER_HOST }}
+          username: ${{ secrets.PURESERVER_USER }}
+          key: ${{ secrets.PURESERVER_PRIVATE }}
+          script: cd /srv/laravel-app && sh ./deploy.sh
