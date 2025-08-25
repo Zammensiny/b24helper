@@ -8,6 +8,7 @@
         >
             <h3 class="text-xl font-semibold">{{ task.title }}</h3>
             <p class="text-gray-600">{{ task.subtitle }}</p>
+            <p class="text-gray-600">{{ task.subtitle }}</p>
 
             <!-- Categories -->
 
