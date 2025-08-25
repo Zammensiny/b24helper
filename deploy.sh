@@ -3,26 +3,37 @@ set -e
 
 echo 'Deploying...'
 
+# Название контейнера с приложением
+APP_CONTAINER="laravel-app-app-1"
+
+# Обновляем код из Git
 git pull origin main
 
-php artisan down
+echo 'Putting application into maintenance mode...'
+docker exec $APP_CONTAINER php artisan down
 
-composer install --no-dev --optimize-autoloader
+echo 'Installing composer dependencies...'
+docker exec $APP_CONTAINER composer install --no-dev --optimize-autoloader
 
-php artisan migrate --force
+echo 'Running database migrations...'
+docker exec $APP_CONTAINER php artisan migrate --force
 
-php artisan config:clear
-php artisan cache:clear
-php artisan route:clear
-php artisan view:clear
+echo 'Clearing caches...'
+docker exec $APP_CONTAINER php artisan config:clear
+docker exec $APP_CONTAINER php artisan cache:clear
+docker exec $APP_CONTAINER php artisan route:clear
+docker exec $APP_CONTAINER php artisan view:clear
 
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
+echo 'Caching configs and routes...'
+docker exec $APP_CONTAINER php artisan config:cache
+docker exec $APP_CONTAINER php artisan route:cache
+docker exec $APP_CONTAINER php artisan view:cache
 
-npm install
-npm run build
+echo 'Installing and building frontend assets...'
+docker exec $APP_CONTAINER npm install
+docker exec $APP_CONTAINER npm run build
 
-php artisan up
+echo 'Bringing application up...'
+docker exec $APP_CONTAINER php artisan up
 
-echo 'Done!'
+echo 'Deploy finished!'
