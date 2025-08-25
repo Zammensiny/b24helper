@@ -14,4 +14,4 @@ jobs:
           host: ${{ secrets.PURESERVER_HOST }}
           username: ${{ secrets.PURESERVER_USER }}
           key: ${{ secrets.PURESERVER_PRIVATE }}
-          script: cd /srv/laravel-app && sh ./deploy.sh
+          script: cd /srv/laravel-app && sh deploy.sh
