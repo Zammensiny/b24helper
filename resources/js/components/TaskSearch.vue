@@ -4,7 +4,7 @@
             <input
                 type="text"
                 v-model="searchQuery"
-                @input="searchTasks"
+                @input="onInput"
                 placeholder="Поиск задач..."
                 class="border border-gray-400 rounded-lg p-3 outline-none w-full my-4 sm:my-6 pr-10"
             />
@@ -31,51 +31,22 @@
 <script>
 export default {
     props: {
-        isAuthenticated: {
-            type: Boolean,
-            required: true,
-        },
-        isAdmin: {
-            type: Boolean,
-            required: true,
-        },
+        isAuthenticated: { type: Boolean, required: true },
+        isAdmin: { type: Boolean, required: true },
     },
     data() {
         return {
             searchQuery: '',
+            searchTimeout: null, // <-- для хранения таймера
         };
     },
     methods: {
-
-        /*-- Добавление таски --*/
-
-        async addTask() {
-            if (!this.isAdmin) {
-                alert('У вас нет прав для добавления задачи');
-                return;
-            }
-
-            const response = await fetch('/api/tasks', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${window.Laravel.token}`,
-                },
-                body: JSON.stringify({
-                    title: 'Новая задача',
-                    description: 'Описание задачи...',
-                }),
-            });
-
-            if (response.ok) {
-                const newTask = await response.json();
-                this.$emit('update-tasks', [...this.tasks, newTask]);
-            } else {
-                alert('Ошибка при добавлении задачи');
-            }
+        onInput() {
+            clearTimeout(this.searchTimeout);
+            this.searchTimeout = setTimeout(() => {
+                this.searchTasks();
+            }, 500); // ⏳ задержка 500мс
         },
-
-        /*-- Найти таски --*/
 
         async searchTasks() {
             if (!this.searchQuery.trim()) {
@@ -84,19 +55,26 @@ export default {
             }
 
             this.$emit('search', this.searchQuery);
-            const response = await fetch(`/api/tasks?query=${this.searchQuery}`);
+            const response = await fetch(`/api/tasks?query=${encodeURIComponent(this.searchQuery)}`);
             const tasks = await response.json();
             this.$emit('update-tasks', tasks);
         },
 
-        /*-- Очистка поиска --*/
-
         async clearSearch() {
+            clearTimeout(this.searchTimeout);
             this.searchQuery = '';
             const response = await fetch(`/api/tasks`);
             const tasks = await response.json();
             this.$emit('update-tasks', tasks);
-        }
+        },
+
+        addTask() {
+            if (!this.isAdmin) {
+                alert('У вас нет прав для добавления задачи');
+                return;
+            }
+            this.$emit('open-create-modal');
+        },
     },
 };
 </script>

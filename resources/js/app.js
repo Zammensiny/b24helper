@@ -19,11 +19,15 @@ const app = createApp({
             }
             const response = await fetch(url);
             const tasks = await response.json();
-
             this.tasks = tasks;
         },
         updateTasks(tasks) {
             this.tasks = tasks;
+        },
+
+        openCreateModal() {
+            // через ref обращаемся к TaskList и вызываем метод
+            this.$refs.taskList.openTaskModal(null);
         }
     },
     mounted() {
@@ -31,8 +35,14 @@ const app = createApp({
     },
     template: `
         <div class="container mx-auto">
-        <task-search :is-authenticated="isAuthenticated" :is-admin="isAdmin" @update-tasks="updateTasks" />
+        <task-search
+            :is-authenticated="isAuthenticated"
+            :is-admin="isAdmin"
+            @update-tasks="updateTasks"
+            @open-create-modal="openCreateModal"
+        />
         <task-list
+            ref="taskList"
             :tasks="tasks"
             :is-admin="isAdmin"
             @update-tasks="updateTasks"

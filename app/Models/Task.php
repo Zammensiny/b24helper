@@ -10,7 +10,7 @@ class Task extends Model
     use HasFactory;
 
     protected $table = 'tasks';
-    protected $fillable = ['title', 'subtitle'];
+    protected $fillable = ['title', 'subtitle', 'content', 'file_path'];
 
     public function categories()
     {
