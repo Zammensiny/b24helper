@@ -38,14 +38,15 @@
             </div>
         </div>
     </div>
-
     <TaskModal
         :taskId="selectedTaskId"
         :isOpen="isModalOpen"
         :is-admin="isAdmin"
         @close="closeTaskModal"
         @deleted="handleDeletedTask"
+        @saved="handleNewTask"
     />
+
 </template>
 
 <script>
@@ -69,6 +70,9 @@ export default {
         closeTaskModal() {
             this.isModalOpen = false;
             this.selectedTaskId = null;
+        },
+        handleNewTask(newTask) {
+            this.$emit('update-tasks', [newTask, ...this.tasks]);
         },
         handleDeletedTask(taskId) {
             this.$emit('update-tasks', this.tasks.filter(task => task.id !== taskId));

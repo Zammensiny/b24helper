@@ -77,8 +77,20 @@
                 <div v-else>
                     <h2 class="text-xl font-semibold mb-4">Создать задачу</h2>
                     <form @submit.prevent="saveTask">
-                        <input v-model="form.title" type="text" placeholder="Название" class="w-full border p-2 rounded mb-3" />
-                        <input v-model="form.subtitle" type="text" placeholder="Краткое описание" class="w-full border p-2 rounded mb-3" />
+
+                        <input
+                            v-model="form.title"
+                            type="text"
+                            placeholder="Название"
+                            class="w-full border p-2 rounded mb-3"
+                        />
+
+                        <input
+                            v-model="form.subtitle"
+                            type="text"
+                            placeholder="Краткое описание"
+                            class="w-full border p-2 rounded mb-3"
+                        />
 
                         <select v-model="form.category_id" class="w-full border p-2 rounded mb-3">
                             <option disabled value="">Выберите категорию</option>
@@ -106,7 +118,13 @@
                         <!-- Кнопки -->
                         <div class="flex justify-end mt-4 gap-2">
                             <button type="button" @click="closeModal" class="px-4 py-2 border rounded">Отмена</button>
-                            <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Сохранить</button>
+                            <button
+                                type="submit"
+                                :disabled="!isFormValid"
+                                class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                Сохранить
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -262,6 +280,9 @@ export default {
         }
     },
     computed: {
+        isFormValid() {
+            return !this.taskId && this.form.title && this.form.subtitle && this.form.category_id;
+        },
         parsedContent() {
             if (!this.task?.content) return [];
             try {

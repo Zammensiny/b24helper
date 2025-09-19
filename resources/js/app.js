@@ -26,7 +26,6 @@ const app = createApp({
         },
 
         openCreateModal() {
-            // через ref обращаемся к TaskList и вызываем метод
             this.$refs.taskList.openTaskModal(null);
         }
     },
