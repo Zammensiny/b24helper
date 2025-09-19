@@ -42,7 +42,7 @@
                         <h3 class="text-lg font-semibold mb-2">Примеры кода:</h3>
                         <div v-for="(frag, i) in parsedContent" :key="i" class="mb-3 border rounded p-3 bg-gray-50" v-highlight>
                             <div class="font-medium text-sm mb-1">📄 {{ frag.label }}</div>
-                            <pre><code :class="frag.language || 'php'" class="bg-black text-green-300 text-xs p-3 rounded overflow-x-auto">
+                            <pre><code class="text-xs p-3 rounded overflow-x-auto">
 {{ frag.content }}
     </code></pre>
                             <button @click="copyCode(frag.content)" class="mt-1 text-xs px-2 py-1 bg-gray-200 rounded hover:bg-gray-300">
