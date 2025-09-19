@@ -22,10 +22,11 @@ Route::get('/', function () {
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-Route::post('/tasks/{task}/delete', [TaskController::class, 'destroy'])->middleware('auth');
 Route::post('/tasks', [TaskController::class, 'store'])->middleware('auth');
+Route::post('/tasks/{task}/delete', [TaskController::class, 'destroy'])->middleware('auth');
 Route::post('/upload-file', function (Illuminate\Http\Request $request) {
     $request->validate(['file' => 'required|file|max:10240']);
     $path = $request->file('file')->store('task_files', 'public');
     return response()->json(['url' => '/storage/' . $path]);
 })->middleware('auth');
+Route::put('/tasks/{task}/update', [TaskController::class, 'update'])->middleware('auth');

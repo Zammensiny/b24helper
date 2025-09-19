@@ -11,4 +11,3 @@ Route::get('/tasks/{id}', function ($id) {
 Route::get('/categories', function () {
     return Category::select('id', 'value', 'color')->get();
 });
-Route::post('/tasks/{task}/delete', [TaskController::class, 'destroy'])->middleware('auth');

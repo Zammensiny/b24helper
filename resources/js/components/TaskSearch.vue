@@ -37,7 +37,7 @@ export default {
     data() {
         return {
             searchQuery: '',
-            searchTimeout: null, // <-- для хранения таймера
+            searchTimeout: null,
         };
     },
     methods: {

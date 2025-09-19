@@ -7,8 +7,10 @@
         leave-from-class="opacity-100"
         leave-to-class="opacity-0"
     >
-        <div v-if="isOpen" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" @mousedown="clickOutside">
-            <div ref="modalContent" class="bg-white rounded-lg shadow-lg w-full max-w-3xl mx-4 sm:mx-6 p-6 relative">
+        <div v-if="isOpen" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+             @mousedown="clickOutside">
+            <div ref="modalContent"
+                 class="bg-white rounded-lg shadow-lg w-full max-w-3xl mx-4 sm:mx-6 p-6 relative max-h-[90vh] overflow-y-auto">
                 <button @click="closeModal" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800">
                     <i class="fa fa-xmark"></i>
                 </button>
@@ -19,37 +21,33 @@
                 </div>
 
                 <!-- VIEW TASK -->
-                <!-- VIEW TASK -->
-                <div v-else-if="taskId && task">
+                <div v-else-if="taskId && task && !isEditing">
                     <h2 class="text-xl font-semibold mb-4">{{ task.title }}</h2>
                     <p class="text-gray-600 mb-2">{{ task.subtitle }}</p>
 
                     <!-- Категории -->
                     <div v-if="task.categories?.length" class="mb-4">
-        <span
-            v-for="cat in task.categories"
-            :key="cat.id"
-            class="text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm"
-            :style="{ backgroundColor: '#f3f4f6' }"
-        >
-            {{ cat.value }}
-        </span>
+                        <span
+                            v-for="cat in task.categories"
+                            :key="cat.id"
+                            class="text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm"
+                            :style="{ backgroundColor: '#f3f4f6' }"
+                        >
+                            {{ cat.value }}
+                        </span>
                     </div>
 
                     <!-- Фрагменты кода -->
-                    <div v-if="task.content" class="mb-4">
+                    <div v-if="hasCodeFragments" class="mb-4">
                         <h3 class="text-lg font-semibold mb-2">Примеры кода:</h3>
-                        <div
-                            v-for="(frag, i) in parsedContent"
-                            :key="i"
-                            class="mb-3 border rounded p-3 bg-gray-50"
-                        >
-                            <div class="font-medium text-sm mb-1">
-                                📄 {{ frag.label }}
-                            </div>
-                            <pre class="bg-black text-green-300 text-xs p-3 rounded overflow-x-auto">
+                        <div v-for="(frag, i) in parsedContent" :key="i" class="mb-3 border rounded p-3 bg-gray-50" v-highlight>
+                            <div class="font-medium text-sm mb-1">📄 {{ frag.label }}</div>
+                            <pre><code :class="frag.language || 'php'" class="bg-black text-green-300 text-xs p-3 rounded overflow-x-auto">
 {{ frag.content }}
-            </pre>
+    </code></pre>
+                            <button @click="copyCode(frag.content)" class="mt-1 text-xs px-2 py-1 bg-gray-200 rounded hover:bg-gray-300">
+                                Скопировать код
+                            </button>
                         </div>
                     </div>
 
@@ -64,20 +62,29 @@
                         </a>
                     </div>
 
-                    <button
-                        v-if="isAdmin"
-                        @click="deleteTask"
-                        class="mt-4 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 flex items-center gap-2"
-                    >
-                        <i class="fa fa-trash"></i> Удалить
-                    </button>
+                    <div v-if="isAdmin" class="mt-4 flex gap-2">
+                        <button
+                            @click="deleteTask"
+                            class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 flex items-center gap-2"
+                        >
+                            <i class="fa fa-trash"></i> Удалить
+                        </button>
+                        <button
+                            v-if="!isEditing"
+                            @click="startEditing"
+                            class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 flex items-center gap-2"
+                        >
+                            <i class="fa fa-pen"></i> Изменить
+                        </button>
+                    </div>
                 </div>
 
-                <!-- CREATE TASK -->
+                <!-- CREATE / EDIT TASK -->
                 <div v-else>
-                    <h2 class="text-xl font-semibold mb-4">Создать задачу</h2>
+                    <h2 class="text-xl font-semibold mb-4">{{
+                            isEditing ? 'Редактировать задачу' : 'Создать задачу'
+                        }}</h2>
                     <form @submit.prevent="saveTask">
-
                         <input
                             v-model="form.title"
                             type="text"
@@ -97,37 +104,44 @@
                             <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.value }}</option>
                         </select>
 
-                        <!-- Фрагменты -->
-                        <div v-for="(fragment, index) in form.fragments" :key="index" class="mb-3 border p-2 rounded bg-gray-50">
+                        <div v-for="(fragment, index) in form.fragments" :key="index"
+                             class="mb-3 border p-2 rounded bg-gray-50">
                             <div class="flex justify-between items-center mb-1">
-                                <input v-model="fragment.label" type="text" placeholder="Название файла, например class.php" class="border p-1 rounded w-1/2" />
-                                <button type="button" @click="removeFragment(index)" class="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm">Удалить</button>
+                                <input v-model="fragment.label" type="text"
+                                       placeholder="Название файла, например class.php"
+                                       class="border p-1 rounded w-1/2"/>
+                                <button type="button" @click="removeFragment(index)"
+                                        class="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm">Удалить
+                                </button>
                             </div>
-                            <textarea v-model="fragment.content" rows="4" placeholder="Вставьте код сюда..." class="w-full border p-2 rounded font-mono text-sm"></textarea>
+                            <textarea v-model="fragment.content" rows="4" placeholder="Вставьте код сюда..."
+                                      class="w-full border p-2 rounded font-mono text-sm"></textarea>
                         </div>
 
-                        <button type="button" @click="addFragment" class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 mb-3">Добавить фрагмент</button>
+                        <button type="button" @click="addFragment"
+                                class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 mb-3">Добавить
+                            фрагмент
+                        </button>
 
-                        <!-- Файл -->
                         <div class="mb-3">
                             <label class="block mb-1 font-medium">Прикрепить файл</label>
-                            <input type="file" @change="handleFile" />
-                            <div v-if="form.fileName" class="mt-1 text-sm text-gray-700">Выбран файл: {{ form.fileName }}</div>
+                            <input type="file" @change="handleFile"/>
+                            <div v-if="form.fileName" class="mt-1 text-sm text-gray-700">
+                                Выбран файл: {{ form.fileName }}
+                            </div>
                         </div>
 
-                        <!-- Кнопки -->
                         <div class="flex justify-end mt-4 gap-2">
                             <button type="button" @click="closeModal" class="px-4 py-2 border rounded">Отмена</button>
-                            <button
-                                type="submit"
-                                :disabled="!isFormValid"
-                                class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
+                            <button type="submit"
+                                    :disabled="!isFormValid"
+                                    class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed">
                                 Сохранить
                             </button>
                         </div>
                     </form>
                 </div>
+
             </div>
         </div>
     </transition>
@@ -145,6 +159,7 @@ export default {
         return {
             task: null,
             isLoading: false,
+            isEditing: false,
             categories: [],
             form: {
                 title: "",
@@ -160,11 +175,9 @@ export default {
         isOpen(newVal) {
             if (newVal) {
                 if (this.taskId) {
-                    // режим просмотра
                     this.isLoading = true;
                     this.fetchTask();
                 } else {
-                    // режим создания
                     this.resetForm();
                     this.fetchCategories();
                 }
@@ -172,8 +185,15 @@ export default {
         }
     },
     methods: {
+        copyCode(code) {
+            navigator.clipboard.writeText(code).then(() => {
+                alert("Скопировано!");
+            }).catch(() => {
+                alert("Не удалось скопировать код");
+            });
+        },
         fetchCategories() {
-            fetch("/api/categories")
+            return fetch("/api/categories")
                 .then(res => res.json())
                 .then(data => this.categories = data)
                 .catch(console.error);
@@ -195,13 +215,15 @@ export default {
             };
             this.isLoading = false;
         },
-        addFragment() { this.form.fragments.push({ label: "", content: "" }); },
-        removeFragment(index) { this.form.fragments.splice(index, 1); },
-
+        addFragment() {
+            this.form.fragments.push({label: "", content: ""});
+        },
+        removeFragment(index) {
+            this.form.fragments.splice(index, 1);
+        },
         async handleFile(event) {
             const file = event.target.files[0];
             if (!file) return;
-
             this.form.fileName = file.name;
 
             const formData = new FormData();
@@ -219,6 +241,17 @@ export default {
             const data = await response.json();
             this.form.file = data.url;
         },
+        startEditing() {
+            this.fetchCategories().then(() => {
+                this.form.title = this.task.title;
+                this.form.subtitle = this.task.subtitle;
+                this.form.category_id = this.task.categories[0]?.id || '';
+                this.form.fragments = this.parsedContent.map(f => ({...f}));
+                this.form.file = this.task.file_path || null;
+                this.form.fileName = this.task.file_path ? this.task.file_path.split('/').pop() : '';
+                this.isEditing = true;
+            });
+        },
         async saveTask() {
             const payload = {
                 title: this.form.title,
@@ -228,9 +261,12 @@ export default {
                 file: this.form.file
             };
 
+            const url = this.isEditing ? `/tasks/${this.taskId}/update` : "/tasks";
+            const method = this.isEditing ? "PUT" : "POST";
+
             try {
-                const response = await fetch("/tasks", {
-                    method: "POST",
+                const response = await fetch(url, {
+                    method,
                     headers: {
                         "Content-Type": "application/json",
                         "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -240,15 +276,14 @@ export default {
                 });
 
                 if (!response.ok) throw await response.json();
-                const newTask = await response.json();
-                this.$emit("saved", newTask);
+                const savedTask = await response.json();
+                this.$emit("saved", savedTask);
                 this.closeModal();
             } catch (err) {
                 alert(err.message || "Ошибка при сохранении задачи");
                 console.error(err);
             }
         },
-
         async deleteTask() {
             if (!confirm("Вы точно хотите удалить задачу?")) return;
             try {
@@ -267,22 +302,18 @@ export default {
                 console.error(err);
             }
         },
-
         closeModal() {
-            this.isLoading = false;
-            this.task = null;
+            this.isEditing = false;
             this.resetForm();
+            this.task = null;
+            this.isLoading = false;
             this.$emit("close");
         },
-
         clickOutside(e) {
             if (!this.$refs.modalContent.contains(e.target)) this.closeModal();
         }
     },
     computed: {
-        isFormValid() {
-            return !this.taskId && this.form.title && this.form.subtitle && this.form.category_id;
-        },
         parsedContent() {
             if (!this.task?.content) return [];
             try {
@@ -291,8 +322,21 @@ export default {
                 console.error("Ошибка парсинга content:", e);
                 return [];
             }
+        },
+        hasCodeFragments() {
+            return this.parsedContent.length > 0;
+        },
+        isFormValid() {
+            return this.form.title && this.form.subtitle && this.form.category_id;
         }
     },
+    directives: {
+        highlight(el) {
+            el.querySelectorAll("pre code").forEach(block => {
+                hljs.highlightElement(block);
+            });
+        }
+    }
 };
 </script>
 

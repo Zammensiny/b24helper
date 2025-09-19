@@ -2,6 +2,15 @@ import { createApp } from 'vue'
 import TaskSearch from './components/TaskSearch.vue'
 import TaskList from './components/TaskList.vue'
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import hljs from "highlight.js/lib/core";
+import javascript from "highlight.js/lib/languages/javascript";
+import php from "highlight.js/lib/languages/php";
+import "highlight.js/styles/github.css";
+
+window.hljs = hljs;
+
+hljs.registerLanguage("javascript", javascript);
+hljs.registerLanguage("php", php);
 
 const app = createApp({
     data() {

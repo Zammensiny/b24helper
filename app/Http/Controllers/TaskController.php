@@ -16,9 +16,49 @@ class TaskController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
 
+    public function show(Task $task)
+    {
+        return response()->json($task->load('categories'));
+    }
+
+    public function getCategories()
+    {
+        return response()->json(\App\Models\Category::select('id', 'value', 'color')->get());
+    }
+
+    public function update(Request $request, Task $task)
+    {
+        if (!auth()->user() || !auth()->user()->isAdmin()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $data = $request->validate([
+            'title' => 'required|string|max:255',
+            'subtitle' => 'nullable|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'fragments' => 'nullable',
+            'file' => 'nullable|string',
+        ]);
+
+        $fragments = $data['fragments'] ?? [];
+        if (!is_array($fragments)) {
+            $fragments = [];
+        }
+
+        $task->update([
+            'title' => $data['title'],
+            'subtitle' => $data['subtitle'] ?? null,
+            'content' => json_encode($fragments),
+            'file_path' => $data['file'] ?? null,
+        ]);
+
+        $task->categories()->sync([$data['category_id']]);
+
+        return response()->json($task->load('categories'));
+    }
+
     public function store(Request $request)
     {
-        // Получаем данные из JSON
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'subtitle' => 'nullable|string|max:255',
