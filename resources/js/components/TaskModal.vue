@@ -104,6 +104,15 @@
                             <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.value }}</option>
                         </select>
 
+                        <div class="mb-3 flex items-center gap-2">
+                            <input
+                                id="hidden"
+                                type="checkbox"
+                                v-model="form.hidden"
+                            />
+                            <label for="hidden" class="text-sm">Скрыто</label>
+                        </div>
+
                         <div v-for="(fragment, index) in form.fragments" :key="index"
                              class="mb-3 border p-2 rounded bg-gray-50">
                             <div class="flex justify-between items-center mb-1">
@@ -167,7 +176,8 @@ export default {
                 category_id: "",
                 fragments: [],
                 file: null,
-                fileName: ""
+                fileName: "",
+                hidden: false
             }
         };
     },
@@ -211,7 +221,8 @@ export default {
                 category_id: "",
                 fragments: [],
                 file: null,
-                fileName: ""
+                fileName: "",
+                hidden: false
             };
             this.isLoading = false;
         },
@@ -248,6 +259,7 @@ export default {
                 this.form.category_id = this.task.categories[0]?.id || '';
                 this.form.fragments = this.parsedContent.map(f => ({...f}));
                 this.form.file = this.task.file_path || null;
+                this.form.hidden = Boolean(this.task.hidden);
                 this.form.fileName = this.task.file_path ? this.task.file_path.split('/').pop() : '';
                 this.isEditing = true;
             });
@@ -258,7 +270,8 @@ export default {
                 subtitle: this.form.subtitle,
                 category_id: this.form.category_id,
                 fragments: this.form.fragments,
-                file: this.form.file
+                file: this.form.file,
+                hidden: this.form.hidden
             };
 
             const url = this.isEditing ? `/tasks/${this.taskId}/update` : "/tasks";

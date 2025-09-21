@@ -24,3 +24,11 @@
 
 </body>
 </html>
+
+<script>
+    window.Laravel = {
+        isAdmin: {{ auth()->check() && auth()->user()->isAdmin() ? 'true' : 'false' }},
+        isAuthenticated: {{ auth()->check() ? 'true' : 'false' }},
+        taskSecret: "{{ config('tasks.secret') }}"
+    };
+</script>

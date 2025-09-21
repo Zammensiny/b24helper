@@ -44,8 +44,13 @@ export default {
         onInput() {
             clearTimeout(this.searchTimeout);
             this.searchTimeout = setTimeout(() => {
+                if (this.searchQuery.trim() === window.Laravel.taskSecret) {
+                    this.$emit('unlock-hidden');
+                    this.searchQuery = '';
+                    return;
+                }
                 this.searchTasks();
-            }, 500); // ⏳ задержка 500мс
+            }, 500);
         },
 
         async searchTasks() {
@@ -54,15 +59,12 @@ export default {
                 return;
             }
 
-            this.$emit('search', this.searchQuery);
             const response = await fetch(`/api/tasks?query=${encodeURIComponent(this.searchQuery)}`);
             const tasks = await response.json();
             this.$emit('update-tasks', tasks);
         },
 
         async clearSearch() {
-            clearTimeout(this.searchTimeout);
-            this.searchQuery = '';
             const response = await fetch(`/api/tasks`);
             const tasks = await response.json();
             this.$emit('update-tasks', tasks);

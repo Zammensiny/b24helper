@@ -38,6 +38,7 @@ class TaskController extends Controller
             'category_id' => 'required|exists:categories,id',
             'fragments' => 'nullable',
             'file' => 'nullable|string',
+            'hidden' => 'nullable|boolean',
         ]);
 
         $fragments = $data['fragments'] ?? [];
@@ -50,6 +51,7 @@ class TaskController extends Controller
             'subtitle' => $data['subtitle'] ?? null,
             'content' => json_encode($fragments),
             'file_path' => $data['file'] ?? null,
+            'hidden' => $data['hidden'] ?? false,
         ]);
 
         $task->categories()->sync([$data['category_id']]);
@@ -65,6 +67,7 @@ class TaskController extends Controller
             'category_id' => 'required|exists:categories,id',
             'fragments' => 'nullable',
             'file' => 'nullable|string',
+            'hidden' => 'nullable|boolean',
         ]);
 
         $fragments = $data['fragments'] ?? [];
@@ -77,6 +80,7 @@ class TaskController extends Controller
             'subtitle' => $data['subtitle'] ?? null,
             'content' => json_encode($fragments),
             'file_path' => $data['file'] ?? null,
+            'hidden' => $data['hidden'] ?? false,
         ]);
 
         $task->categories()->attach($data['category_id']);

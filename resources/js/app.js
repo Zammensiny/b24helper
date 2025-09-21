@@ -18,22 +18,27 @@ const app = createApp({
             tasks: [],
             isAdmin: window.Laravel.isAdmin,
             isAuthenticated: window.Laravel.isAuthenticated,
+            showHidden: false, // флаг скрытых задач
         }
     },
     methods: {
         async fetchTasks(query = '') {
-            let url = '/api/tasks';
-            if (query) {
-                url += `?query=${query}`;
-            }
+            const params = new URLSearchParams();
+            if (query) params.append('query', query);
+
+            if (this.showHidden) params.append('secret', window.Laravel.taskSecret);
+
+            const url = `/api/tasks?${params.toString()}`;
             const response = await fetch(url);
-            const tasks = await response.json();
-            this.tasks = tasks;
+            this.tasks = await response.json();
         },
         updateTasks(tasks) {
             this.tasks = tasks;
         },
-
+        unlockHidden() {
+            this.showHidden = true;
+            this.fetchTasks(); // перезапрос с секретом
+        },
         openCreateModal() {
             this.$refs.taskList.openTaskModal(null);
         }
@@ -48,12 +53,14 @@ const app = createApp({
             :is-admin="isAdmin"
             @update-tasks="updateTasks"
             @open-create-modal="openCreateModal"
+            @unlock-hidden="unlockHidden"
         />
         <task-list
             ref="taskList"
             :tasks="tasks"
             :is-admin="isAdmin"
-            @update-tasks="updateTasks"
+            :show-hidden="showHidden"
+        @update-tasks="updateTasks"
         />
         </div>
     `
