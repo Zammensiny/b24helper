@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OllamaChatController;
 use App\Http\Controllers\TaskController;
 
 /*
@@ -18,6 +19,9 @@ use App\Http\Controllers\TaskController;
 Route::get('/', function () {
     return view('main');
 })->name('main');
+
+Route::view('/test-chat', 'test-chat')->name('test-chat');
+Route::post('/test-chat', [OllamaChatController::class, 'reply'])->middleware('throttle:10,1');
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);

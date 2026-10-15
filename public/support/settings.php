@@ -1,0 +1,3 @@
+<?php
+define('C_REST_CLIENT_ID','app.6a8bfc92d217e4.18921332');
+define('C_REST_CLIENT_SECRET','XoDO7wQHXDen9iPSEhvTEXTlMFEoH6ShTQeuRmOfdMPOqWYttb');
