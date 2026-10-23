@@ -1,0 +1,217 @@
+{
+  "source_id": "owner-policy-2026-10-23-v3",
+  "version": 3,
+  "effective_date": "2026-10-23",
+  "authority": "owner statements in this conversation; addresses and warehouse codes from supplied XML",
+  "bargaining": {
+    "allowed": false,
+    "automatic_discounts_allowed": false,
+    "wholesale_special_terms": "not_provided",
+    "reply": "Цена фиксированная, без торга."
+  },
+  "hours": {
+    "days": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "opens": "09:00",
+    "closes": "18:00",
+    "time_basis": "warehouse_local_time",
+    "special_dates": {},
+    "reply": "Работаем каждый день с 9:00 до 18:00."
+  },
+  "pickup": {
+    "enabled": true,
+    "same_day_requires_stock_confirmation": true
+  },
+  "delivery": {
+    "cdek": {
+      "status": "active",
+      "cost": null,
+      "dispatch_schedule": null,
+      "transit_time": null
+    },
+    "avito": {
+      "status": "planned_not_connected",
+      "launch_date": null
+    },
+    "other_carriers": "not_confirmed"
+  },
+  "payment_methods": null,
+  "warranty_terms": {
+    "default": "manager_confirmation_for_specific_offer",
+    "historical_phrases_are_global_policy": false,
+    "automatically_deny_claims": false
+  },
+  "interwarehouse_transfer_terms": null,
+  "warehouses": [
+    {
+      "code": "transopt-first",
+      "city_label": "Новосибирск",
+      "address_raw": "г. Новосибирск, ул. Семьи Шамшиных 95а",
+      "timezone": "Asia/Novosibirsk",
+      "aliases": [
+        "Новосибирск",
+        "НСК",
+        "Новосиб"
+      ],
+      "address_source_id": "xml:e4335ef6ebfe970eea2fd53958c376e7dc5dfb321853c1dfff0e05e8a6191830"
+    },
+    {
+      "code": "kras",
+      "city_label": "Краснодар",
+      "address_raw": "Краснодар, пос.Яблоновский, ул Ленина 54",
+      "timezone": "Europe/Moscow",
+      "aliases": [
+        "Краснодар",
+        "Крд",
+        "Яблоновский"
+      ],
+      "address_source_id": "xml:e4335ef6ebfe970eea2fd53958c376e7dc5dfb321853c1dfff0e05e8a6191830"
+    },
+    {
+      "code": "ekb",
+      "city_label": "Екатеринбург",
+      "address_raw": "Екатеринбург, ул Фронтовых бригад 15 к21/3",
+      "timezone": "Asia/Yekaterinburg",
+      "aliases": [
+        "Екатеринбург",
+        "Екб"
+      ],
+      "address_source_id": "xml:e4335ef6ebfe970eea2fd53958c376e7dc5dfb321853c1dfff0e05e8a6191830"
+    }
+  ],
+  "ambiguous_city_terms": {
+    "крас": "resolve_from_context_or_ask",
+    "красе": "resolve_from_context_or_ask"
+  },
+  "inventory": {
+    "source_kind": "periodic_xml_snapshot",
+    "updates_per_week": 2,
+    "reservation_semantics": "unknown",
+    "max_snapshot_age_hours": null,
+    "xml_timestamp_timezone": null,
+    "live_stock_claims_from_xml": false,
+    "snapshot_response": "state_as_last_export_with_date_if_needed",
+    "confirmation_required_for_pickup_today": true,
+    "nonpositive_price_means": "needs_manager_check",
+    "negative_stock_means": "unknown_needs_check",
+    "missing_stock_means": "unknown_not_zero"
+  },
+  "pricing": {
+    "xml_price_type": "retail",
+    "quote_mode": "qualified_as_price_list_value",
+    "final_order_price_requires_confirmation": true,
+    "price_type_authority": "explicit_owner_confirmation"
+  },
+  "style": {
+    "language": "ru",
+    "tone": "natural_brief_professional",
+    "informal_phrases_allowed": true,
+    "profanity_allowed": false,
+    "default_address": "вы",
+    "do_not_invent_human_identity": true,
+    "direct_ai_question": "answer_honestly",
+    "artificial_typing_delays": false,
+    "allowed_symbols": [
+      "⚠️",
+      "✅",
+      "☎",
+      "★",
+      "✓",
+      "⭐",
+      "◆",
+      "⚙"
+    ]
+  },
+  "knowledge_sources": [
+    {
+      "domain": "transopt.net",
+      "status": "owner_confirmed",
+      "content_scope": "articles_only",
+      "article_index": "https://transopt.net/news/",
+      "content_ingested": false,
+      "trust": "scope_and_fact_review_required",
+      "exclude_web_catalog_prices_stocks": true
+    },
+    {
+      "domain": "zapakpp.ru",
+      "status": "owner_confirmed",
+      "content_scope": "technical_material",
+      "content_ingested": false,
+      "trust": "scope_and_fact_review_required"
+    },
+    {
+      "domain": "drive2.ru",
+      "status": "owner_allowed",
+      "content_scope": "firsthand_technical_experience",
+      "content_ingested": false,
+      "trust": "not_fitment_or_repair_guarantee"
+    }
+  ],
+  "unresolved": [
+    "exact_openai_config_and_endpoint_for_developer",
+    "connector_adapter_for_developer",
+    "listing_to_offer_mapping",
+    "reservation_semantics",
+    "snapshot_freshness_limit_and_export_timezone",
+    "current_payment_requisites_and_delivery_fees",
+    "warranty_terms_for_specific_offer"
+  ],
+  "special_orders": {
+    "enabled": false,
+    "authority": "owner_supplied_dialogue_examples",
+    "reply": "Под заказ не работаем.",
+    "does_not_block_checkout_of_in_stock_goods": true
+  },
+  "attachments": {
+    "photo_action": "handoff_before_model",
+    "image_model_input_allowed": false,
+    "pdf_receipt_action": "handoff",
+    "unknown_attachment_action": "handoff",
+    "pause_automation_until_explicit_return": true
+  },
+  "checkout": {
+    "recipient_required_fields": [
+      "recipient_name",
+      "recipient_phone",
+      "city",
+      "cdek_pickup_point_address_or_code"
+    ],
+    "ask_only_missing_fields": true,
+    "multiple_phone_numbers": "clarify_role",
+    "pickup_point_requires_verification": true,
+    "payment_requisites": null,
+    "payment_requisites_from_old_dialogues_allowed": false,
+    "local_carrier_dropoff_fee": null,
+    "carrier_tariff": null,
+    "payment_status_source": [
+      "accounting",
+      "authorized_manager_confirmation"
+    ],
+    "shipping_status_source": [
+      "fulfillment_system",
+      "authorized_manager_confirmation"
+    ],
+    "customer_paid_message_is_confirmation": false,
+    "line_items_supported": true
+  },
+  "model_hint": {
+    "candidate": "gpt-4o-mini",
+    "confirmed": false,
+    "exact_config_value": null,
+    "source": "owner tentative description: 4io mini",
+    "model_api_call_tested": false
+  },
+  "integration": {
+    "connector_disclosed": false,
+    "request_connector_again": false,
+    "adapter_required": true,
+    "photo_metadata_handling_is_required": true
+  }
+}

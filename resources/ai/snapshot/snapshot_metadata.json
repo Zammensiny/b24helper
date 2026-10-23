@@ -1,0 +1,42 @@
+{
+  "source_id": "xml:e4335ef6ebfe970eea2fd53958c376e7dc5dfb321853c1dfff0e05e8a6191830",
+  "source_filename": "export (7).xml",
+  "source_sha256": "e4335ef6ebfe970eea2fd53958c376e7dc5dfb321853c1dfff0e05e8a6191830",
+  "export_generated_at_raw": "2026-10-23 16:51",
+  "export_timezone": null,
+  "inventory_checked_at": null,
+  "imported_at_utc": "2026-10-23T14:19:58.311760+00:00",
+  "is_live": false,
+  "shop_name": "transopt",
+  "shop_url": "https://transopt.net",
+  "warehouses": [
+    {
+      "code": "transopt-first",
+      "city_label": "Новосибирск",
+      "address_raw": "г. Новосибирск, ул. Семьи Шамшиных 95а"
+    },
+    {
+      "code": "kras",
+      "city_label": "Краснодар",
+      "address_raw": "Краснодар, пос.Яблоновский, ул Ленина 54"
+    },
+    {
+      "code": "ekb",
+      "city_label": "Екатеринбург",
+      "address_raw": "Екатеринбург, ул Фронтовых бригад 15 к21/3"
+    }
+  ],
+  "record_count": 1780,
+  "declared_update_frequency": "twice_per_week_per_owner",
+  "snapshot_age_limit_hours": null,
+  "reservation_semantics": "unknown",
+  "notes": [
+    "Export generation time is not inventory check time.",
+    "Do not infer the export timezone from the import machine.",
+    "A missing offer is not proof of zero stock; publication completeness is unknown.",
+    "Positive quantity does not prove unreserved quantity.",
+    "Default read path is a qualified snapshot statement, never a live stock guarantee."
+  ],
+  "price_type": "retail",
+  "price_type_source_id": "owner-policy-2026-10-23-v3"
+}

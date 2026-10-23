@@ -190,6 +190,8 @@
             sendButton.disabled = true;
             hint.textContent = 'Модель отвечает...';
             const pending = addMessage('assistant', 'Думаю...');
+            const abortController = new AbortController();
+            const timeoutId = window.setTimeout(() => abortController.abort(), 50000);
 
             try {
                 const response = await fetch('{{ route('test-chat') }}', {
@@ -200,20 +202,37 @@
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
                     },
                     body: JSON.stringify({ messages }),
+                    signal: abortController.signal,
                 });
-                const data = await response.json();
+                const responseText = await response.text();
+                let data;
+                try {
+                    data = JSON.parse(responseText);
+                } catch (parseError) {
+                    throw new Error(`Сервер вернул не JSON (HTTP ${response.status}). Проверьте журналы Laravel и Nginx.`);
+                }
                 pending.remove();
 
-                if (!response.ok) throw new Error(data.message || 'Не удалось получить ответ.');
+                if (!response.ok) throw new Error(data.message || `Ошибка сервера (HTTP ${response.status}).`);
+
+                if (data.reply === '') {
+                    hint.textContent = 'Enter отправляет, Shift+Enter переносит строку';
+                    return;
+                }
 
                 messages.push({ role: 'assistant', content: data.reply });
                 addMessage('assistant', data.reply);
                 hint.textContent = 'Enter отправляет, Shift+Enter переносит строку';
             } catch (error) {
+                pending.remove();
                 messages.pop();
-                addMessage('assistant', error.message || 'Произошла ошибка соединения.', true);
+                const message = error.name === 'AbortError'
+                    ? 'Модель не ответила за 50 секунд. Проверьте Ollama и журналы сервера.'
+                    : error.message || 'Произошла ошибка соединения.';
+                addMessage('assistant', message, true);
                 hint.textContent = 'Не удалось получить ответ';
             } finally {
+                window.clearTimeout(timeoutId);
                 sendButton.disabled = false;
                 input.focus();
             }

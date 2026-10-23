@@ -1,0 +1,65 @@
+{
+  "records": 1780,
+  "warehouses": [
+    {
+      "code": "transopt-first",
+      "city_label": "Новосибирск",
+      "address_raw": "г. Новосибирск, ул. Семьи Шамшиных 95а"
+    },
+    {
+      "code": "kras",
+      "city_label": "Краснодар",
+      "address_raw": "Краснодар, пос.Яблоновский, ул Ленина 54"
+    },
+    {
+      "code": "ekb",
+      "city_label": "Екатеринбург",
+      "address_raw": "Екатеринбург, ул Фронтовых бригад 15 к21/3"
+    }
+  ],
+  "available_attributes": {
+    "true": 1780
+  },
+  "stock_status_counts": {
+    "transopt-first": {
+      "positive": 1707,
+      "zero": 73
+    },
+    "kras": {
+      "positive": 1405,
+      "zero": 375
+    },
+    "ekb": {
+      "positive": 1381,
+      "zero": 398,
+      "negative": 1
+    }
+  },
+  "flagged_offers": [
+    {
+      "offer_id": "56769",
+      "name": "Сальник привода правый 4WD (NOK) BH6348-F0 АКПП U140E/U660E/U760E/UA80E",
+      "flags": [
+        "negative_stock:ekb"
+      ]
+    },
+    {
+      "offer_id": "61730",
+      "name": "Герметик тест",
+      "flags": [
+        "invalid_or_nonpositive_price",
+        "possible_test_item"
+      ]
+    },
+    {
+      "offer_id": "62183",
+      "name": "Комплект фрикционных дисков раздаточной коробки ATC35L/ATC45L ZF 8HP45 / 8HP50 / ZF 8HP70 / 8HP75",
+      "flags": [
+        "invalid_or_nonpositive_price"
+      ]
+    }
+  ],
+  "descriptions_mentioning_discounts": 1675,
+  "descriptions_mentioning_any_carrier": 1661,
+  "technical_review_performed": false
+}

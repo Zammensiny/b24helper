@@ -1,0 +1,10 @@
+{
+  "complete": true,
+  "record_count": 1780,
+  "source_id": "xml:e4335ef6ebfe970eea2fd53958c376e7dc5dfb321853c1dfff0e05e8a6191830",
+  "files_sha256": {
+    "snapshot_metadata.json": "34f0cdc8f552f160cfdb321de17eb2e8e465d5e274afaf5e83fa470511c0983c",
+    "data_audit.json": "37fdd3270138e74898f4e9fe67f20c3cf1cd1a3131d25272c16beb1901c6ac5f",
+    "catalog_snapshot.jsonl": "6dd9c84519837a683c6e55b665732ee76aee8b91d48fec7d6f1a1c3736870ea1"
+  }
+}

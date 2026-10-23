@@ -1,0 +1,177 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "action",
+    "reply",
+    "offer_ids",
+    "evidence",
+    "handoff_reason",
+    "manager_summary",
+    "extracted_data"
+  ],
+  "properties": {
+    "action": {
+      "type": "string",
+      "enum": [
+        "answer",
+        "clarify",
+        "handoff",
+        "silent"
+      ]
+    },
+    "reply": {
+      "type": "string"
+    },
+    "offer_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source",
+          "source_id",
+          "field"
+        ],
+        "properties": {
+          "source": {
+            "type": "string",
+            "enum": [
+              "store_policy",
+              "products",
+              "inventory_snapshot",
+              "price_snapshot",
+              "live_data",
+              "technical_knowledge",
+              "manager_confirmations",
+              "order_context"
+            ]
+          },
+          "source_id": {
+            "type": "string"
+          },
+          "field": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "handoff_reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "manager_summary": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "extracted_data": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "required": [
+        "shipping_candidate",
+        "requested_parts",
+        "customer_claimed_payment",
+        "vehicle_note",
+        "source_message_ids"
+      ],
+      "properties": {
+        "shipping_candidate": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false,
+          "required": [
+            "recipient_name",
+            "recipient_phone",
+            "city",
+            "pickup_point_text"
+          ],
+          "properties": {
+            "recipient_name": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "recipient_phone": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "city": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "pickup_point_text": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        "requested_parts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "original_text",
+              "part_number",
+              "quantity"
+            ],
+            "properties": {
+              "original_text": {
+                "type": "string"
+              },
+              "part_number": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "quantity": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              }
+            }
+          }
+        },
+        "customer_claimed_payment": {
+          "type": "boolean"
+        },
+        "vehicle_note": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_message_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
